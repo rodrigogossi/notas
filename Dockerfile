@@ -17,8 +17,11 @@ FROM node:22-bookworm-slim
 WORKDIR /app
 ENV NODE_ENV=production
 ENV SERVE_CLIENT=true
+# Copia o node_modules da raiz (hoisted) E o de dentro de server/ (o npm às vezes aninha algumas
+# dependências ali em vez de hospedar na raiz, ex: dotenv por causa de resolução de versão) —
+# copiar só um dos dois já causou um "Cannot find package" em produção.
 COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/server/dist ./server/dist
+COPY --from=build /app/server ./server
 COPY --from=build /app/client/dist ./server/public
 EXPOSE 4000
 CMD ["node", "server/dist/index.js"]
