@@ -1,6 +1,6 @@
 services:
   app:
-    build: .
+    image: rodrigogossi/notas:${NOTAS_TAG:-latest}
     restart: unless-stopped
     environment:
       DATA_DIR: /data
