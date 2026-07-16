@@ -1,0 +1,26 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      DATA_DIR: /data
+      WEBDAV_USERNAME: ${WEBDAV_USERNAME}
+      WEBDAV_PASSWORD: ${WEBDAV_PASSWORD}
+      WEBDAV_NOTES_DIR: /Notes
+      WEBDAV_FOLDERS_DIR: /Folders
+      API_TOKEN: ${API_TOKEN}
+      ALLOWED_ORIGIN: ${ALLOWED_ORIGIN}
+      PORT: 4000
+    volumes:
+      # local real no host onde as notas são gravadas — troque NOTES_DATA_DIR no .env se quiser
+      # apontar para outro lugar (outro disco, outro caminho já usado para backup, etc.)
+      - ${NOTES_DATA_DIR:-./data}:/data
+    networks:
+      - caddy_net
+    # sem "ports": o Caddy alcança este serviço pelo nome (rede caddy_net); o WebDAV interno do
+    # container só escuta em loopback (127.0.0.1) e nunca fica acessível de fora dele.
+
+networks:
+  caddy_net:
+    external: true
+    name: ${CADDY_NETWORK_NAME:-caddy_net}

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/pwa-192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1e6fd9" />
+    <title>Notas</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Em produção o Express substitui este objeto pelo token real antes de servir a página
+         (ver server/src/index.ts). Em dev fica vazio mesmo, e a API roda sem token. -->
+    <script>window.__NOTES_CONFIG__ = {"token":""};</script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
