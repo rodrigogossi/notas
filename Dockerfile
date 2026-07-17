@@ -17,6 +17,9 @@ FROM node:22-bookworm-slim
 WORKDIR /app
 ENV NODE_ENV=production
 ENV SERVE_CLIENT=true
+# Padrão pensado pra rodar em container: quem montar um volume em /data já funciona sem precisar
+# redefinir DATA_DIR também (o padrão de config.ts, "./data", é só para dev local fora do Docker).
+ENV DATA_DIR=/data
 # Copia o node_modules da raiz (hoisted) E o de dentro de server/ (o npm às vezes aninha algumas
 # dependências ali em vez de hospedar na raiz, ex: dotenv por causa de resolução de versão) —
 # copiar só um dos dois já causou um "Cannot find package" em produção.
