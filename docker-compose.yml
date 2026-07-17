@@ -2,25 +2,26 @@ services:
   app:
     image: rodrigogossi/notas:${NOTAS_TAG:-latest}
     restart: unless-stopped
+    ports:
+      - "${NOTAS_PORT:-4000}:4000"
     environment:
-      DATA_DIR: /data
       WEBDAV_USERNAME: ${WEBDAV_USERNAME}
       WEBDAV_PASSWORD: ${WEBDAV_PASSWORD}
-      WEBDAV_NOTES_DIR: /Notes
-      WEBDAV_FOLDERS_DIR: /Folders
       API_TOKEN: ${API_TOKEN}
-      ALLOWED_ORIGIN: ${ALLOWED_ORIGIN}
-      PORT: 4000
+      ALLOWED_ORIGIN: ${ALLOWED_ORIGIN:-http://localhost:4000}
     volumes:
       # local real no host onde as notas são gravadas — troque NOTES_DATA_DIR no .env se quiser
       # apontar para outro lugar (outro disco, outro caminho já usado para backup, etc.)
       - ${NOTES_DATA_DIR:-./data}:/data
-    networks:
-      - caddy_net
-    # sem "ports": o Caddy alcança este serviço pelo nome (rede caddy_net); o WebDAV interno do
-    # container só escuta em loopback (127.0.0.1) e nunca fica acessível de fora dele.
 
-networks:
-  caddy_net:
-    external: true
-    name: ${CADDY_NETWORK_NAME:-caddy_net}
+# Se você já tem um reverse proxy (Caddy/Nginx/Traefik) rodando em Docker e prefere não publicar a
+# porta acima, comente o "ports:" e descomente as linhas abaixo (ajustando o nome da rede pra do
+# seu proxy) — veja o README para o trecho de configuração do proxy.
+#
+#     networks:
+#       - proxy_net
+#
+# networks:
+#   proxy_net:
+#     external: true
+#     name: ${PROXY_NETWORK_NAME:-proxy_net}
