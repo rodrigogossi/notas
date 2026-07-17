@@ -89,3 +89,7 @@ como PWA.
 
 Detalhes de arquitetura e decisões de design (LWW, soft-delete, segurança) estão documentados no
 plano original da sessão de desenvolvimento.
+
+## Licença
+
+[MIT](LICENSE).

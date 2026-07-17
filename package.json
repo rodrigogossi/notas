@@ -1,6 +1,7 @@
 {
   "name": "projeto-notas",
   "private": true,
+  "license": "MIT",
   "workspaces": ["client", "server"],
   "scripts": {
     "dev:server": "npm run dev --workspace server",
